@@ -3,11 +3,14 @@ all: stack hakyll
 
 stack:
 	stack build
+	stack exec curso-logica build
+
 
 hakyll:
 
 
 clean:
-	rm -r $(BUILD)
+	stack exec curso-logica clean
+	stack clean
 
-.PHONY: all book clean epub html pdf
+.PHONY: all

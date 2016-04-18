@@ -1,0 +1,333 @@
+<html lang="es">
+
+<!--=======================================================================-->
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>L&oacute;gica Formal I - Fitch</title>
+    <script type='text/javascript' src='../resources/logic-engine/logica.js'></script>
+    <script type='text/javascript' src='../resources/logic-engine/fitch.js'></script>
+</head>
+
+<!--=======================================================================-->
+
+<body style='background-color:#990000' onLoad='doinitialize()'>
+<center>
+    <table width='720' cellpadding='40' bgcolor='#ffffff'>
+        <tr>
+            <td>
+
+                <!--=======================================================================-->
+
+                <center>
+                    <span style='font-size:36px'>L&oacute;gica Formal I - Fitch</span>
+                </center>
+                <br/>
+
+                <!--=======================================================================-->
+
+                <p>Usar el Sistema de Fitch para validar el siguiente argumento.</p>
+
+                <!--=======================================================================-->
+
+                <center>
+                    <span style='color:#888888;cursor:pointer' onClick='toggleinstructions(this)'>Show Instructions</span>
+                </center>
+
+                <p id='instructions' style='margin:20px;display:none'>To apply a rule of inference, check the lines you wish to use as premises and click the button for the rule of inference.  Reiteration allows you to repeat an earlier item.  To delete one or more lines from a proof, check the desired lines and click Delete.  When entering expressions, use Ascii characters only.  Use ~ for &not;; use & for &and;; use | for &or;; use =&gt; for &rArr;; use &lt;=&gt; for &hArr;.</p>
+
+                <!--=======================================================================-->
+
+                <center>
+                    <table width='640' cellspacing='0' cellpadding='0' border='1'>
+                        <tr>
+                            <td height='40' align='center' bgcolor='#eeeeee' style='font-size:24px'>Fitch</td>
+                        </tr>
+                        <tr>
+                            <td align='center'><div id='proof'></div></td>
+                        </tr>
+                        <tr>
+                            <td align='center'>
+                                <table width='100%' cellpadding='0' cellspacing='0' bgcolor='#eeeeee'>
+                                    <tr height='30'>
+                                        <td width='40'>Goal</td>
+                                        <td id='goal' style='border-left:2px solid #000000;padding:5px'></td>
+                                        <td id='status' width='200' style='color:#ff0000'>&nbsp;Incomplete</td>
+                                    </tr>
+                                </table>
+                            </td>
+                        </tr>
+
+                        <!--=======================================================================-->
+
+                        <tr id='premise' style='display:none'>
+                            <td>
+                                <table cellpadding='10' cellspacing='0' border='0'><tr><td>
+                                    Enter the premise you wish to add to the proof:<br/><br/>
+                                    <input id='newpremise' type='text' value='' size='40'/><br/>
+                                    <input type='button' value='Add' onClick='addpremise()'/>
+                                    <input type='button' value='Cancel' onClick='unpremise()'/>
+                                </td></tr></table>
+                            </td>
+                        </tr>
+
+                        <!--=======================================================================-->
+
+                        <tr id='assumption' style='display:none'>
+                            <td>
+                                <table cellpadding='10' cellspacing='0' border='0'><tr><td>
+                                    Enter the assumption you wish to make:<br/><br/>
+                                    <input id='newassumption' type='text' value='' size='40'/><br/>
+                                    <input type='button' value='Add' onClick='addassumption()'/>
+                                    <input type='button' value='Cancel' onClick='unassumption()'/>
+                                </td></tr></table>
+                            </td>
+                        </tr>
+
+                        <!--=======================================================================-->
+
+                        <tr id='shortcut' style='display:none'>
+                            <td>
+                                <table cellpadding='10' cellspacing='0' border='0'><tr><td>
+                                    Enter the conclusion you wish to add to the proof:<br/><br/>
+                                    <input id='newconclusion' type='text' value='' size='40'/><br/>
+                                    Enter the justification for this conclusion:<br/><br/>
+                                    <input id='newjustification' type='text' value='' size='40'/><br/>
+                                    <input type='button' value='Add' onClick='addshortcut()'/>
+                                    <input type='button' value='Cancel' onClick='unshortcut()'/>
+                                </td></tr></table>
+                            </td>
+                        </tr>
+
+                        <!--=======================================================================-->
+
+                        <tr id='oi' style='display:none'>
+                            <td>
+                                <table cellpadding='10' cellspacing='0' border='0'><tr><td>
+                                    Enter the sentence you wish to disjoin to the checked items:<br/><br/>
+                                    <input id='newoi' type='text' value='' size='40'/><br/>
+                                    <input type='button' value='Add' onClick='addoi()'/>
+                                    <input type='button' value='Cancel' onClick='unoi()'/>
+                                </td></tr></table>
+                            </td>
+                        </tr>
+
+                        <!--=======================================================================-->
+
+                        <tr id='oe' style='display:none'>
+                            <td align='center'>
+                                <table cellpadding='10' cellspacing='0' border='0'><tr><td>
+                                    Or Elimination:<br/>
+                                    <center>
+                                        <table><tr><td>
+                                            &phi;&or;&psi;<br/>
+                                            &phi;&rArr;&chi;<br/>
+                                            &psi;&rArr;&chi;<br/>
+                                            <hr/>
+                                            &chi;<br/>
+                                        </td></tr></table>
+                                    </center>
+                                </td></tr></table>
+                            </td>
+                        </tr>
+
+                        <!--=======================================================================-->
+
+                        <tr id='ui' style='display:none'>
+                            <td>
+                                <table cellpadding='10' cellspacing='0' border='0'><tr><td>
+                                    Universal Introduction:<br/>
+                                    <center>
+                                        <table><tr><td>
+                                            &phi;<br/>
+                                            <hr/>
+                                            A&nu;:&phi;
+                                        </td></tr></table>
+                                    </center>
+                                    <br/>
+                                    Enter the variable you would like to use:<br/><br/>
+                                    <table>
+                                        <tr><th>&nu;:</th><td><input id='uinu' type='text' value=''/></td></tr>
+                                    </table>
+                                    <center>
+                                        <input type='button' value='Add' onClick='addui()'/>
+                                        <input type='button' value='Cancel' onClick='unui()'/>
+                                    </center>
+                                </td></tr></table>
+                            </td>
+                        </tr>
+
+                        <!--=======================================================================-->
+
+                        <tr id='ue' style='display:none'>
+                            <td>
+                                <table cellpadding='10' cellspacing='0' border='0'><tr><td>
+                                    Universal Elimination:<br/>
+                                    <center>
+                                        <table><tr><td>
+                                            A&nu;:&phi;<br/>
+                                            <hr/>
+                                            &phi;[&nu;&larr;&tau;]<br/>
+                                            where &tau; is free for &nu; in &phi;
+                                        </td></tr></table>
+                                    </center>
+                                    <br/>
+                                    Enter the term you would like to use:<br/><br/>
+                                    <table>
+                                        <tr><td>&tau;:</td><td><input id='uetau' type='text' value='' size='40'/></td></tr>
+                                    </table>
+                                    <center>
+                                        <input type='button' value='Add' onClick='addue()'/>
+                                        <input type='button' value='Cancel' onClick='unue()'/>
+                                    </center>
+                                </td></tr></table>
+                            </td>
+                        </tr>
+
+                        <!--=======================================================================-->
+
+                        <tr id='ei' style='display:none'>
+                            <td>
+                                <table cellpadding='10' cellspacing='0' border='0'><tr><td>
+                                    Existential Introduction:<br/>
+                                    <center>
+                                        <table><tr><td>
+                                            &phi;(&tau;)<br/>
+                                            <hr/>
+                                            E&nu;:&phi;(&nu;)
+                                        </td></tr></table>
+                                    </center>
+                                    <br/>
+                                    Enter the term you would like to replace:<br/><br/>
+                                    <table>
+                                        <tr><th>&tau;:</th><td><input id='egtau' type='text' value=''/></td></tr>
+                                    </table>
+                                    <br/>
+                                    Enter the variable you would like to use:<br/><br/>
+                                    <table>
+                                        <tr><th>&nu;:</th><td><input id='egnu' type='text' value=''/></td></tr>
+                                    </table>
+                                    <center>
+                                        <input type='button' value='Add' onClick='addei()'/>
+                                        <input type='button' value='Cancel' onClick='unei()'/>
+                                    </center>
+                                </td></tr></table>
+                            </td>
+                        </tr>
+
+                        <!--=======================================================================-->
+
+                        <tr id='qi' style='display:none'>
+                            <td>
+                                <table cellpadding='10' cellspacing='0' border='0'><tr><td>
+                                    Equality Introduction:<br/>
+                                    <center>
+                                        <table><tr><td>
+                                            &tau;=&tau;<br/>
+                                        </td></tr></table>
+                                    </center>
+                                    <br/>
+                                    Enter the term you would like to use:<br/><br/>
+                                    <table>
+                                        <tr><th>&tau;:</th><td><input id='qitau' type='text' value=''/></td></tr>
+                                    </table>
+                                    <br/>
+                                    <center>
+                                        <input type='button' value='Add' onClick='addqi()'/>
+                                        <input type='button' value='Cancel' onClick='unqi()'/>
+                                    </center>
+                                </td></tr></table>
+                            </td>
+                        </tr>
+
+                        <!--=======================================================================-->
+
+                        <tr>
+                            <td align='center' bgcolor='#eeeeee'>
+                                <br/>
+                                <table>
+                                    <tr>
+                                        <td valign='top'>
+                                            <input type='button' id='dopremise' value='Premise' style='width:150;background-color:#ffffff' onClick='dopremise()'/><br/>
+                                            <input type='button' id='doassumption' value='Assumption' style='width:150;background-color:#ffffff' onClick='doassumption()'/><br/>
+                                            <input type='button' name=command value='Reiteration' style='width:150;background-color:#ffffff' onClick='doreiteration()'/><br/>
+                                            <input type='button' name=command value='Shortcut' style='width:150;background-color:#ffffff' onClick='doshortcut()'/><br/>
+                                            <input type='button' name=command value='Delete' style='width:150;background-color:#ffffff' onClick='dodelete()'/><br/>
+                                        </td>
+                                        <td valign='top'>
+                                            <input type='button' name=command value='Negation Introduction' style='width:150;background-color:#ffffff' onClick='doni()'/><br/>
+                                            <input type='button' name=command value='Negation Elimination' style='width:150;background-color:#ffffff' onClick='done()'/><br/>
+                                            <input type='button' name=command value='And Introduction' style='width:150;background-color:#ffffff' onClick='doai()'/><br/>
+                                            <input type='button' name=command value='And Elimination' style='width:150;background-color:#ffffff' onClick='doae()'/><br/>
+                                            <input type='button' name=command value='Or Introduction' style='width:150;background-color:#ffffff' onClick='dooi()'/><br/>
+                                            <input type='button' name=command value='Or Elimination' style='width:150;background-color:#ffffff' onClick='dooe()'/><br/>
+                                        </td>
+                                        <td valign='top'>
+                                            <input type='button' id='doii' value='Implication Introduction' style='width:150;background-color:#ffffff' onClick='doii()'/><br/>
+                                            <input type='button' name=command value='Implication Elimination' style='width:150;background-color:#ffffff' onClick='doie()'/><br/>
+                                            <input type='button' name=command value='Biconditional Introduction' style='width:150;background-color:#ffffff' onClick='dobi()'/><br/>
+                                            <input type='button' name=command value='Biconditional Elimination' style='width:150;background-color:#ffffff' onClick='dobe()'/><br/>
+                                            <!--<input type='button' name=command value='Equality Introduction' style='width:150;background-color:#ffffff' onClick='doqi()'/><br/>-->
+                                            <!--<input type='button' name=command value='Equality Elimination' style='width:150;background-color:#ffffff' onClick='doqe()'/><br/>-->
+                                        </td>
+                                        <!--<td valign='top'>
+                                    <input type='button' name=command value='Universal Introduction' style='width:150;background-color:#ffffff' onClick='doui()'/><br/>
+                                    <input type='button' name=command value='Universal Elimination' style='width:150;background-color:#ffffff' onClick='doue()'/><br/>
+                                    <input type='button' name=command value='Existential Introduction' style='width:150;background-color:#ffffff' onClick='doei()'/><br/>
+                                    <input type='button' name=command value='Existential Elimination' style='width:150;background-color:#ffffff' onClick='doee()'/><br/>
+                                    <input type='button' name=command value='Domain Closure' style='width:150;background-color:#ffffff' onClick='dodc()' disabled='true'/><br/>
+                                    <input type='button' name=command value='Induction' style='width:150;background-color:#ffffff' onClick='doin()' disabled='true'/><br/>
+                                        </td>-->
+                                    </tr>
+                                </table>
+                                <br/>
+
+                                <!--<input type='button' name=command value='Show Answer' style='width:150;background-color:#ffffff' onClick='showanswer()'/>-->
+                                <input type='button' name=command value='Reset' style='width:150;background-color:#ffffff' onClick='doreset()'/>
+                                <input type='button' name=command value='Show XML' style='width:150;background-color:#ffffff' onClick='doxml()'/><br/>
+
+                </center>
+                <br/>
+            </td>
+        </tr>
+    </table>
+</center>
+
+<!--=======================================================================-->
+
+<div id='answer' style='display:none'>
+    <proof>
+        <step>
+            <number>1</number>
+            <sentence>s => (t => u)</sentence>
+            <justification>Premise</justification>
+        </step>
+        <step>
+            <number>2</number>
+            <sentence>u => ~u</sentence>
+            <justification>Premise</justification>
+        </step>
+        <step>
+            <number>3</number>
+            <sentence>(v => s) & (p => t)</sentence>
+            <justification>Premise</justification>
+        </step>
+        <step>
+            <number>4</number>
+            <sentence>v => ~p</sentence>
+            <justification>Goal</justification>
+        </step>
+    </proof>
+</div>
+
+<!--=======================================================================-->
+
+</td>
+</tr>
+</table>
+</center>
+</body>
+</html>

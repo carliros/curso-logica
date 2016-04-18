@@ -1,0 +1,332 @@
+<html lang="es">
+
+<!--=======================================================================-->
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>L&oacute;gica Formal I - Mendelson</title>
+    <script type='text/javascript' src='../resources/logic-engine/logica.js'></script>
+    <script type='text/javascript' src='../resources/logic-engine/mendelson.js'></script>
+</head>
+
+<!--=======================================================================-->
+
+<body style='background-color:#990000'
+      onLoad='doinitialize()' onKeyDown='handlekey(window.event)'>
+<center>
+    <table width='720' cellpadding='40' bgcolor='#ffffff'>
+        <tr>
+            <td>
+
+                <!--=======================================================================-->
+
+                <center>
+                    <span style='font-size:36px'>L&oacute;gica Formal I - Mendelson</span>
+                </center>
+                <br/>
+
+                <!--=======================================================================-->
+
+                <p>Demostrar el Teorema de Identidad. <i>A => A.</i></p>
+
+                <!--=======================================================================-->
+
+                <center>
+                    <span style='color:#888888;cursor:pointer' onClick='toggleinstructions(this)'>Show Instructions</span>
+                </center>
+
+                <p id='instructions' style='margin:20px;display:none'>To apply a rule of inference, check the lines you wish to use as premises and click the button for the rule of inference.  Reiteration allows you to repeat an earlier item.  To delete one or more lines from a proof, check the desired lines and click Delete.  When entering expressions, use Ascii characters only.  Use ~ for &not;; use =&gt; for &rArr;; use A for &forall;; and use : for . in quantified sentences.  Also, for variables use strings of alphanumeric characters that begin with a capital letter.  For example, to write the sentence &forall;<i>x</i>(p(<i>x</i>) &rArr; &not;s(<i>x</i>)), write <tt>AX(p(X)=&gt;~s(X))</tt>.</p>
+
+                <!--=======================================================================-->
+
+                <center>
+                    <table width='640' cellspacing='0' cellpadding='0' border='1'>
+                        <tr>
+                            <td height='40' align='center' bgcolor='#eeeeee' style='font-size:24px'>Mendelson</td>
+                        </tr>
+                        <tr>
+                            <td align='center'><div id='proof'></div></td>
+                        </tr>
+                        <tr>
+                            <td align='center'>
+                                <table width='100%' cellpadding='0' cellspacing='0' bgcolor='#eeeeee'>
+                                    <tr height='30'>
+                                        <td width='40'>Goal</td>
+                                        <td id='goal' style='border-left:2px solid #000000;padding:5px'></td>
+                                        <td id='status' width='200' style='color:#ff0000'>&nbsp;Incomplete</td>
+                                    </tr>
+                                </table>
+                            </td>
+                        </tr>
+
+                        <!--=======================================================================-->
+
+                        <tr id='premise' style='display:none'>
+                            <td align='center'>
+                                <table cellpadding='10' cellspacing='0' border='0'><tr><td>
+                                    Enter the premise you wish to add to the proof:<br/><br/>
+                                    <input id='newpremise' type='text' value='' size='40'/><br/>
+                                    <input type='button' value='Add' onClick='addpremise()'/>
+                                    <input type='button' value='Cancel' onClick='unpremise()'/>
+                                </td></tr></table>
+                            </td>
+                        </tr>
+
+                        <!--=======================================================================-->
+
+                        <tr id='shortcut' style='display:none'>
+                            <td>
+                                <table cellpadding='10' cellspacing='0' border='0'><tr><td>
+                                    Enter the conclusion you wish to add to the proof:<br/><br/>
+                                    <input id='newconclusion' type='text' value='' size='40'/><br/>
+                                    Enter the justification for this conclusion:<br/><br/>
+                                    <input id='newjustification' type='text' value='' size='40'/><br/>
+                                    <input type='button' value='Add' onClick='addshortcut()'/>
+                                    <input type='button' value='Cancel' onClick='unshortcut()'/>
+                                </td></tr></table>
+                            </td>
+                        </tr>
+
+                        <!--=======================================================================-->
+
+                        <tr id='ic' style='display:none'>
+                            <td align='center'>
+                                <table cellpadding='10' cellspacing='0' border='0'><tr><td>
+                                    Implication Introduction:<br/>
+                                    <center>
+                                        &phi; => (&psi; => &phi;)<br/>
+                                    </center>
+                                    <br/>
+                                    Enter values for the meta-variables in the schema:<br/><br/>
+                                    <table>
+                                        <tr><th>&phi;:</th><td><input id='phi' type='text' value=''/></td></tr>
+                                        <tr><th>&psi;:</th><td><input id='psi' type='text' value=''/></td></tr>
+                                    </table>
+                                    <center>
+                                        <input type='button' value='Add' onClick='addic()'/>
+                                        <input type='button' value='Cancel' onClick='unic()'/>
+                                    </center>
+                                </td></tr></table>
+                            </td>
+                        </tr>
+
+                        <!--=======================================================================-->
+
+                        <tr id='id' style='display:none'>
+                            <td align='center'>
+                                <table cellpadding='10' cellspacing='0' border='0'><tr><td>
+                                    Implication Distribution:<br/>
+                                    <center>
+                                        (&phi; => (&psi; => &chi;)) => ((&phi; => &psi;) => (&phi; => &chi;))<br/>
+                                    </center>
+                                    <br/>
+                                    Enter values for the meta-variables in the schema:<br/><br/>
+                                    <table>
+                                        <tr><th>&phi;:</th><td><input id='idphi' type='text' value=''/></td></tr>
+                                        <tr><th>&psi;:</th><td><input id='idpsi' type='text' value=''/></td></tr>
+                                        <tr><th>&chi;:</th><td><input id='idchi' type='text' value=''/></td></tr>
+                                    </table>
+                                    <center>
+                                        <input type='button' value='Add' onClick='addid()'/>
+                                        <input type='button' value='Cancel' onClick='unid()'/>
+                                    </center>
+                                </td></tr></table>
+                            </td>
+                        </tr>
+
+                        <!--=======================================================================-->
+
+                        <tr id='cr' style='display:none'>
+                            <td align='center'>
+                                <table cellpadding='10' cellspacing='0' border='0'><tr><td>
+                                    Contradiction Realization:<br/>
+                                    <center>
+                                        (~&phi; => &psi;) => ((~&phi; => ~&psi;) => &phi;)<br/>
+                                    </center>
+                                    <br/>
+                                    Enter values for the meta-variables in the schema:<br/><br/>
+                                    <table>
+                                        <tr><th>&phi;:</th><td><input id='crphi' type='text' value=''/></td></tr>
+                                        <tr><th>&psi;:</th><td><input id='crpsi' type='text' value=''/></td></tr>
+                                    </table>
+                                    <center>
+                                        <input type='button' value='Add' onClick='addcr()'/>
+                                        <input type='button' value='Cancel' onClick='uncr()'/>
+                                    </center>
+                                </td></tr></table>
+                            </td>
+                        </tr>
+
+                        <!--=======================================================================-->
+
+                        <tr id='ui' style='display:none'>
+                            <td align='center'>
+                                <table cellpadding='10' cellspacing='0' border='0'><tr><td>
+                                    Universal Instantiation:<br/>
+                                    <center>
+                                        <table><tr><td>
+                                            A&nu;:&phi; =&gt; &phi;[&nu;&larr;&tau;]<br/>
+                                            where &tau; is free for &nu; in &phi;
+                                        </td></tr></table>
+                                    </center>
+                                    <br/>
+                                    Enter values for the meta-variables in the schema:<br/><br/>
+                                    <table>
+                                        <tr><th>&nu;:</th><td><input id='udnu' type='text' value='' size='40'/></td></tr>
+                                        <tr><th>&phi;:</th><td><input id='udphi' type='text' value='' size='40'/></td></tr>
+                                        <tr><td>&tau;:</td><td><input id='uitau' type='text' value='' size='40'/></td></tr>
+                                    </table>
+                                    <center>
+                                        <input type='button' value='Add' onClick='addui()'/>
+                                        <input type='button' value='Cancel' onClick='unui()'/>
+                                    </center>
+                                </td></tr></table>
+                            </td>
+                        </tr>
+
+                        <!--=======================================================================-->
+
+                        <tr id='sub' style='display:none'>
+                            <td align='center'>
+                                <table cellpadding='10' cellspacing='0' border='0'><tr><td>
+                                    Substitution:<br/>
+                                    <center>
+                                        <table><tr><td>
+                                            &mu;=&nu; =&gt; (&phi; =&gt; &phi;[&mu;&larr;&nu;])<br/>
+                                            where &tau; is free for &nu; in &phi;
+                                        </td></tr></table>
+                                    </center>
+                                    <br/>
+                                    Enter values for the meta-variables in the schema:<br/><br/>
+                                    <table>
+                                        <tr><th>&mu;:</th><td><input id='submu' type='text' value='' size='40'/></td></tr>
+                                        <tr><th>&nu;:</th><td><input id='subnu' type='text' value='' size='40'/></td></tr>
+                                        <tr><td>&phi;:</td><td><input id='subphi' type='text' value='' size='40'/></td></tr>
+                                    </table>
+                                    <center>
+                                        <input type='button' value='Add' onClick='addsub()'/>
+                                        <input type='button' value='Cancel' onClick='unsub()'/>
+                                    </center>
+                                </td></tr></table>
+                            </td>
+                        </tr>
+
+                        <!--=======================================================================-->
+
+                        <tr id='ud' style='display:none'>
+                            <td align='center'>
+                                <table cellpadding='10' cellspacing='0' border='0'><tr><td>
+                                    Universal Distribution:<br/>
+                                    <center>
+                                        A&nu;:(&phi; => &psi;) => (&phi; => A&nu;:&psi;)<br/>
+                                        where &nu; does not occur free in &phi;.<br/>
+                                    </center>
+                                    <br/>
+                                    Enter values for the meta-variables in the schema:<br/><br/>
+                                    <table>
+                                        <tr><th>&nu;:</th><td><input id='udnu' type='text' value='' size='40'/></td></tr>
+                                        <tr><th>&phi;:</th><td><input id='udphi' type='text' value='' size='40'/></td></tr>
+                                        <tr><th>&psi;:</th><td><input id='udpsi' type='text' value='' size='40'/></td></tr>
+                                    </table>
+                                    <center>
+                                        <input type='button' value='Add' onClick='addud()'/>
+                                        <input type='button' value='Cancel' onClick='unud()'/>
+                                    </center>
+                                </td></tr></table>
+                            </td>
+                        </tr>
+
+                        <!--=======================================================================-->
+
+                        <tr id='ug' style='display:none'>
+                            <td align='center'>
+                                <table cellpadding='10' cellspacing='0' border='0'><tr><td>
+                                    Universal Generalization:<br/>
+                                    <center>
+                                        <table><tr><td>
+                                            &phi;<br/>
+                                            <hr/>
+                                            A&nu;:&phi;
+                                        </td></tr></table>
+                                    </center>
+                                    <br/>
+                                    Enter the variable you would like to use:<br/><br/>
+                                    <table>
+                                        <tr><th>&nu;:</th><td><input id='ugnu' type='text' value=''/></td></tr>
+                                    </table>
+                                    <center>
+                                        <input type='button' value='Add' onClick='addug()'/>
+                                        <input type='button' value='Cancel' onClick='unug()'/>
+                                    </center>
+                                </td></tr></table>
+                            </td>
+                        </tr>
+
+                        <!--=======================================================================-->
+
+                        <tr>
+                            <td align='center' bgcolor='#eeeeee'>
+                                <br/>
+                                <table>
+                                    <tr>
+                                        <td valign='top'>
+                                            <input type='button' id='dopremise' name=command value='Premise' style='width:150;background-color:#ffffff' onClick='dopremise()'/><br/>
+                                            <input type='button' name=command value='Reiteration' style='width:150;background-color:#ffffff' onClick='doreiteration()'/><br/>
+                                            <!--<input type='button' name=command value='Shortcut' style='width:150;background-color:#ffffff' onClick='doshortcut()'/><br/>-->
+                                            <input type='button' name=command value='Delete' style='width:150;background-color:#ffffff' onClick='dodelete()'/><br/>
+                                        </td>
+                                        <td valign='top'>
+                                            <input type='button' name=command value='Implication Creation' style='width:150;background-color:#ffffff' onClick='doic()'/><br/>
+                                            <input type='button' name=command value='Implication Distribution' style='width:150;background-color:#ffffff' onClick='doid()'/><br/>
+                                            <input type='button' name=command value='Contradiction Realization' style='width:150;background-color:#ffffff' onClick='docr()'/><br/>
+                                        </td>
+                                        <!--<td valign='top'>
+                                    <input type='button' name=command value='Universal Instantiation' style='width:150;background-color:#ffffff' onClick='doui()'/><br/>
+                                    <input type='button' name=command value='Universal Distribution' style='width:150;background-color:#ffffff' onClick='doud()'/><br/>
+                                    <input type='button' name=command value='Reflexivity' style='width:150;background-color:#ffffff' onClick='doreflexivity()'/><br/>
+                                    <input type='button' name=command value='Substitution' style='width:150;background-color:#ffffff' onClick='dosub()'/><br/>
+                                        </td>-->
+                                        <td valign='top'>
+                                            <input type='button' name=command value='Implication Elimination' style='width:150;background-color:#ffffff' onClick='doie()'/><br/>
+                                            <!--<input type='button' name=command value='Universal Generalization' style='width:150;background-color:#ffffff' onClick='doug()'/><br/>-->
+                                        </td>
+                                    </tr>
+                                </table>
+                                <br/>
+
+                                <!--<input type='button' name=command value='Show Answer' style='width:150;background-color:#ffffff' onClick='showanswer()'/>-->
+                                <input type='button' name=command value='Reset' style='width:150;background-color:#ffffff' onClick='doreset()'/>
+                                <input type='button' name=command value='Show XML' style='width:150;background-color:#ffffff' onClick='doxml()'/><br/>
+
+                </center>
+                <br/>
+                <a href="../pages/prop-logic.md">Go back to the Logic Course</a>
+                <br/>
+            </td>
+        </tr>
+    </table>
+</center>
+
+<!--=======================================================================-->
+
+<div id='answer' style='display:none'>
+    <proof>
+        <step>
+            <number>1</number>
+            <sentence>A => A</sentence>
+            <justification>Goal</justification>
+        </step>
+    </proof>
+</div>
+
+<!--=======================================================================-->
+
+</td>
+</tr>
+</table>
+</center>
+</body>
+</html>
