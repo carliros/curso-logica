@@ -6,9 +6,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
     <meta name="description" content="materiales para curso de lógica">
-    <meta name="author" content="">
+    <meta name="author" content="Carlos Gómez">
 
-    <title>Curso de Lógica</title>
+    <title>Curso de Lógica - Lógica Formal</title>
 
     <!-- Custom styles -->
     <link href="resources/css/custom.css" rel="stylesheet">
@@ -21,101 +21,49 @@
     <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
     <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
     <![endif]-->
+
+    <!--CodeMirror-->
+    <link rel="stylesheet" href="resources/codemirror/5.13.4/lib/codemirror.css">
+    <link rel="stylesheet" href="resources/codemirror/5.13.4/theme/elegant.css">
+    <script src="resources/codemirror/5.13.4/lib/codemirror.js"></script>
+    <script src="resources/codemirror/5.13.4/mode/haskell/haskell.js"></script>
+    <style type="text/css">.CodeMirror {border-top: 1px solid black; border-bottom: 1px solid black;}</style>
 </head>
 
 <body>
 
 <!-- Begin page content -->
 <div class="container">
-    <div class="page-header">
-        <h1>Curso de Lógica</h1>
+    <div class="header">
+        <nav>
+            <ul class="nav nav-pills pull-right">
+                <li id="home" role="presentation"><a href="index.html">Home</a></li>
+                <li id="prop-logic" role="presentation"><a href="prop-logic.html">Lógica Proposicional</a></li>
+                <li id="kleene" role="presentation"><a href="kleene.html">Kleene</a></li>
+            </ul>
+        </nav>
+        <h3 class="text-muted">Lógica Formal</h3>
     </div>
+
+    <!--<div class="page-header">-->
+        <!--<h1>Lógica Formal</h1>-->
+    <!--</div>-->
     <p class="lead">Aquí presentaremos algunas herramientas del curso de lógica de la UPB.</p>
 
     <div class="panel">
-        <h2>Sistema de Mendelson</h2>
-
-        <h3>Demostración de teoremas</h3>
-        <ol>
-            <li><a href="exercises/4.1.teorema.html">Teorema de identidad</a></li>
-            <li><a href="exercises/4.2.teorema.html">Teorema del silogismo</a></li>
-            <li><a href="exercises/4.3.teorema.html">Teorema del modus Ponens</a></li>
-            <li><a href="exercises/4.4.teorema.html">Teorema de la eliminación de la doble negación</a></li>
-            <li><a href="exercises/4.5.teorema.html">Teorema de la introducción de la doble negación</a></li>
-            <li><a href="exercises/4.6.teorema.html">Teorema de la contraposición 1</a></li>
-            <li><a href="exercises/4.7.teorema.html">Teorema de la contraposición 2</a></li>
-            <li><a href="exercises/4.8.teorema.html">Teorema 7</a></li>
-            <li><a href="exercises/4.9.teorema.html">Teorema de excontradictione quodlibet</a></li>
-            <li><a href="exercises/4.10.teorema.html">Teorema 9</a></li>
-            <li><a href="exercises/4.11.teorema.html">Teorema 10</a></li>
-            <li><a href="exercises/4.12.teorema.html">Teorema de reducción al absurdo 1.1</a></li>
-            <li><a href="exercises/4.13.teorema.html">Teorema de reducción al absurdo 1.2</a></li>
-            <li><a href="exercises/4.14.teorema.html">Teorema del dilema</a></li>
-            <li><a href="exercises/4.15.teorema.html">Teorema de la reducción al absurdo 2.1</a></li>
-            <li><a href="exercises/4.16.teorema.html">Teorema de la reducción al absurdo 2.2</a></li>
-            <li><a href="exercises/4.17.teorema.html">Teorema de la autodistribución del implicador</a></li>
-        </ol>
-
-        <h2>Sistema de Fitch</h2>
-
-        <h3>Reglas de inferencia auxiliares</h3>
-        <ol>
-            <li><a href="exercises/6.teorema_silogismo.html">Regla del Silogismo</a></li>
-            <li><a href="exercises/6.teorema_mutacion_premisas.html">Regla de inferencia de la Mutación de premisas</a></li>
-            <li><a href="exercises/6.teorema_identidad.html">Regla de inferencia de la identidad</a></li>
-            <li><a href="exercises/6.teorema_carga_premisas.html">Regla de inferencia de la Carga de premisas</a></li>
-            <li><a href="exercises/6.teorema_conmutativa_conj.html">Regla de inferencia de la Conmutativa de la conjunción</a></li>
-            <li><a href="exercises/6.teorema_conmutativa_disy.html">Regla de inferencia de la Conmutativa de la disyunción</a></li>
-            <li><a href="exercises/6.teorema_asoc_conj.html">Regla de inferencia de la asociativa de la conjunción</a></li>
-            <li><a href="exercises/6.teorema_asoc_disy.html">Regla de inferencia de la asociativa de la disyunción</a></li>
-            <li><a href="exercises/6.teorema_distrib_conj.html">Regla de inferencia de la distributiva de la conjunción</a></li>
-            <li><a href="exercises/6.teorema_distrib_disy.html">Regla de inferencia de la distributiva de la disyunción</a></li>
-            <li><a href="exercises/6.teorema_idempotencia_conj.html">Regla de inferencia de la idempotencia de la conjunción</a></li>
-            <li><a href="exercises/6.teorema_idempotencia_disy.html">Regla de inferencia de la idempotencia de la disyunción</a></li>
-            <li><a href="exercises/6.teorema_absorcion_conj.html">Regla de inferencia de la absorción de la conjunción</a></li>
-            <li><a href="exercises/6.teorema_absorcion_disy.html">Regla de inferencia de la absorción de la disyunción</a></li>
-            <li><a href="exercises/6.teorema_mt.html">Regla de inferencia del Modus Tollens</a></li>
-            <li><a href="exercises/6.teorema_contraposicion.html">Regla de inferencia de la Contraposición</a></li>
-            <li><a href="exercises/6.teorema_intro_doble_neg.html">Regla de inferencia de la Introducción de la doble negación</a></li>
-            <li><a href="exercises/6.teorema_ExContradictioneQuodlibet.html">Regla de inferencia de ExContradictione Quodlibet</a></li>
-            <li><a href="exercises/6.teorema_Tollendo_Ponens.html">Regla de inferencia de Tollendo Ponens</a></li>
-            <li><a href="exercises/6.teorema_import_export.html">Regla de inferencia de la Importación/Exportación</a></li>
-            <li><a href="exercises/6.teorema_interdef_impl_conj.html">Regla de inferencia de la Interdefinición de la Implicación por la conjunción</a></li>
-            <li><a href="exercises/6.teorema_interdef_impl_disy.html">Regla de inferencia de la Interdefinición de la Implicación por la disyunción</a></li>
-            <li><a href="exercises/6.teorema_morgan1.html">Regla de inferencia de Morgan 1</a></li>
-            <li><a href="exercises/6.teorema_morgan2.html">Regla de inferencia de Morgan 2</a></li>
-            <li><a href="exercises/6.teorema_dilema_cons_complejo.html">Regla de inferencia del Dilema constructivo complejo</a></li>
-            <li><a href="exercises/6.teorema_dilema_destr_simple.html">Regla de inferencia del Dilema destructivo simple</a></li>
-            <li><a href="exercises/6.teorema_dilema_destr_complejo.html">Regla de inferencia del Dilema destructivo complejo</a></li>
-        </ol>
-
-        <h3>Ejercicios para resolver</h3>
-        <ol>
-            <li><a href="exercises/6.1.exercise.html">Ejercicio 1</a></li>
-            <li><a href="exercises/6.2.exercise.html">Ejercicio 2</a></li>
-            <li><a href="exercises/6.3.exercise.html">Ejercicio 3</a></li>
-            <li><a href="exercises/6.4.exercise.html">Ejercicio 4</a></li>
-            <li><a href="exercises/6.5.exercise.html">Ejercicio 5</a></li>
-            <li><a href="exercises/6.6.exercise.html">Ejercicio 6</a></li>
-            <li><a href="exercises/6.7.exercise.html">Ejercicio 7</a></li>
-            <li><a href="exercises/6.8.exercise.html">Ejercicio 8</a></li>
-            <li><a href="exercises/6.9.exercise.html">Ejercicio 9</a></li>
-            <li><a href="exercises/6.10.exercise.html">Ejercicio 10</a></li>
-            <li><a href="exercises/6.11.exercise.html">Ejercicio 11</a></li>
-            <li><a href="exercises/6.12.exercise.html">Ejercicio 12</a></li>
-            <li><a href="exercises/6.13.exercise.html">Ejercicio 13</a></li>
-            <li><a href="exercises/6.14.exercise.html">Ejercicio 14</a></li>
-        </ol>
-
-        <br />
-        <br />
-        <br />
+        <h3 id="noticias">Noticias</h3>
+<ul>
+<li>Se inicia con el proyecto de invetigación <a href="kleene.html">Kleene</a></li>
+<li>Nueva estructura de la página del curso.</li>
+</ul>
+<p><em>Última modificación: 18/04/2016</em></p>
     </div>
+
+    <br />
+    <br />
+    <br />
 </div>
 
-<!-- ======================= BODY ================== -->
-
-<!-- ======================= FOOTER ================== -->
 <footer class="footer">
     <div class="container">
         <p class="text-muted">Nota.- El motor para los ejercicios de lógica fue tomado de <a href="http://logica.stanford.edu/">Introduction to Logic</a>.</p>
@@ -125,7 +73,11 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
 <!-- Include all compiled plugins (below), or include individual files as needed -->
 <script src="resources/bootstrap/js/bootstrap.min.js"></script>
-
+<script type="application/javascript">
+    jQuery(function (){
+        jQuery('#home').addClass('active');
+    });
+</script>
 </body>
 </html>
 
